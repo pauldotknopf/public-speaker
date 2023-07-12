@@ -1,20 +1,30 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PublicSpeaker.Web.Models;
+using PublicSpeaker.Web.Services;
+using SpotifyAPI.Web;
 
 namespace PublicSpeaker.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private ILogger<HomeController> _logger;
+    private SpotifyClient _spotifyClient;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger,
+        SpotifyClient spotifyClient)
     {
         _logger = logger;
+        _spotifyClient = spotifyClient;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var result = await _spotifyClient.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest {});
+
+        var queue = await _spotifyClient.Player.GetQueue();
+
         return View();
     }
 

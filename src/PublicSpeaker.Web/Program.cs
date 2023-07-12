@@ -1,7 +1,15 @@
+using PublicSpeaker.Web.Middleware;
+using PublicSpeaker.Web.Services;
+using SpotifyAPI.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<SpotifyConfig>(builder.Configuration.GetSection("Spotify"));
+builder.Services.AddSingleton<SpotifySession>();
+builder.Services.AddScoped(context => { return new SpotifyClient(context.GetRequiredService<SpotifySession>().AccessToken); });
 
 var app = builder.Build();
 
@@ -15,6 +23,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseMiddleware<SpotifyAuthMiddleware>();
 
 app.UseRouting();
 
