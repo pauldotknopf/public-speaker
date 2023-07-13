@@ -23,10 +23,15 @@ namespace PublicSpeaker.Web.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (string.IsNullOrEmpty(_spotifySession.AccessToken)
-                && !context.Request.Path.ToString().ToLower().Equals("/spotifycallback"))
+            if(context.Request.Path.ToString().ToLower().StartsWith("/auth/"))
             {
-                var redirectUri = $"{context.Request.Scheme}://{context.Request.Host.Value}/spotifycallback";
+                await _next(context);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(_spotifySession.AccessToken))
+            {
+                var redirectUri = $"{context.Request.Scheme}://{context.Request.Host.Value}/auth/callback";
                 var loginRequest = new LoginRequest(
                     new Uri(redirectUri),
                     _spotifyConfig.ClientId,

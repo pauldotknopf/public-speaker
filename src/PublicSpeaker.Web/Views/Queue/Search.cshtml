@@ -1,0 +1,44 @@
+﻿@model SearchViewModel
+@{
+    ViewData["Title"] = "Add song";
+}
+<div class="container">
+    <h2>Add song</h2>
+    <form asp-action="Search">
+        <div class="form-row align-items-center mb-3">
+            <div class="col-auto">
+                <input type="text" class="form-control mb-2" asp-for="Query">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+            </div>
+        </div>
+    </form>
+    @if (!string.IsNullOrEmpty(Model.Query) && !Model.Tracks.Any())
+    {
+        <div class="alert alert-info">No tracks found.</div>
+    }
+    @foreach (var track in Model.Tracks)
+    {
+        <div class="track">
+            <div class="track-album">
+                <img src="@track.AlbumImageUrl" />
+            </div>
+            <div class="track-main">
+                <div class="title">
+                    @track.Title
+                </div>
+                <div class="artists">
+                    @string.Join(", ", track.Artists)
+                </div>
+                <div>
+                    <form asp-action="AddTrack">
+                        <input type="hidden" name="uri" value="@track.Uri" />
+                        <input type="hidden" name="query" value="@Model.Query" />
+                        <button type="submit" class="btn btn-light"><i class="fa-solid fa-plus"></i>&nbsp;Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>

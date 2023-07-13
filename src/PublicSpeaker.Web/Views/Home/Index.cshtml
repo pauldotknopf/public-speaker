@@ -1,8 +1,50 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Queue";
 }
+<div class="container">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2>Currently playing</h2>
+
+    @if (Model.CurrentlyPlaying != null)
+    {
+        <div class="track">
+            <div class="track-album">
+                <img src="@Model.CurrentlyPlaying.AlbumImageUrl" />
+            </div>
+            <div class="track-main">
+                <div class="title">
+                    @Model.CurrentlyPlaying.Title
+                </div>
+                <div class="artists">
+                    @string.Join(", ", Model.CurrentlyPlaying.Artists)
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">No tracks are currently playing.</div>
+    }
+    <h2>Up next</h2>
+    @if (Model.Queue.Count == 0)
+    {
+        <div class="alert alert-info">No tracks are currently queued.</div>
+    }
+    @foreach (var queue in Model.Queue)
+    {
+        <div class="track">
+            <div class="track-album">
+                <img src="@queue.AlbumImageUrl" />
+            </div>
+            <div class="track-main">
+                <div class="title">
+                    @queue.Title
+                </div>
+                <div class="artists">
+                    @string.Join(", ", queue.Artists)
+                </div>
+            </div>
+        </div>
+    }
 </div>

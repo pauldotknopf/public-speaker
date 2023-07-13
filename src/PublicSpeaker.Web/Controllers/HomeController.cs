@@ -21,11 +21,25 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var result = await _spotifyClient.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest {});
+        var model = new HomeViewModel();
 
         var queue = await _spotifyClient.Player.GetQueue();
 
-        return View();
+        if(queue.CurrentlyPlaying != null)
+        {
+            model.CurrentlyPlaying = Models.Common.TrackModel.FromPlayableItem(queue.CurrentlyPlaying);
+        }
+
+        if(queue.Queue != null)
+        {
+            model.Queue = queue.Queue.Select(x => Models.Common.TrackModel.FromPlayableItem(x)).ToList();
+        }
+        else
+        {
+            model.Queue = new List<Models.Common.TrackModel>();
+        }
+
+        return View(model);
     }
 
     public IActionResult Privacy()

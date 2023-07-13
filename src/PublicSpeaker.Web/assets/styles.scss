@@ -1,2 +1,14 @@
 @import "styles/variables";
 @import "~bootstrap/scss/bootstrap";
+
+$fa-font-path: "~/node_modules/@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+$roboto-font-path: "~/node_modules/roboto-fontface/fonts";
+@import "~roboto-fontface/css/roboto/sass/roboto-fontface";
+
+@import "styles/fonts";
+@import "styles/general";
+@import "styles/tracks";

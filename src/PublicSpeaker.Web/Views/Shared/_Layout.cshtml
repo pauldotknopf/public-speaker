@@ -3,47 +3,50 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PublicSpeaker.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PublicSpeaker.Web.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - my speaker</title>
+    <link rel="stylesheet" href="~/index.8e6db5cb.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PublicSpeaker.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <header class="bg-light mb-3">
+        <div class="navbar navbar-expand">
+            <div class="container">
+            <a href="@Url.Content("~/")" class="navbar-brand d-flex">
+                <strong>my speaker</strong>
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://pknopf.com/"><i class="fa-solid fa-newspaper"></i>&nbsp;blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.instagram.com/the.paul.of.the.wild"><i class="fa-brands fa-instagram"></i>&nbsp;instagram</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Queue" asp-action="Search"><i class="fa-solid fa-plus"></i>&nbsp;add song</a>
+                </li>
+            </ul>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - PublicSpeaker.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+    </header>
+    <main>
+        <div class="container">
+            @{
+                var successMessage = (string)TempData["success"];
+                var errorMessage = (string)TempData["error"];
+            }
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success">@successMessage</div>
+            }
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+        </div>
+        @RenderBody()
+    </main>
+    <footer class="bg-light py-3 mt-5 text-muted text-center">
+        <a href="https://github.com/pauldotknopf/public-speaker"><i class="fab fa-github"></i> source</a>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

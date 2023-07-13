@@ -1,0 +1,26 @@
+﻿@import "~bootstrap/scss/utilities";
+
+.track {
+    display: flex;
+    flex-direction: row;
+
+    .track-album {
+        margin-right: map-get($spacers, 3);
+
+        img {
+            @extend .img-fluid, .rounded;
+            max-width: 100px;
+        }
+    }
+
+    .track-main {
+        flex: 1;
+
+        .title {
+            font-size: $font-size-lg;
+            font-weight: bold;
+        }
+    }
+
+    margin-bottom: map-get($spacers, 3);
+}
