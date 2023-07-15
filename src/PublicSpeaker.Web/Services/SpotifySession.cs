@@ -3,11 +3,23 @@ namespace PublicSpeaker.Web.Services
 {
 	public class SpotifySession
 	{
-		public string AccessToken { get; private set; }
+		private SpotifySessionInfo _spotifySessionInfo;
+		private object _lock = new object();
 
-		public void SetAccessToken(string accessToken)
+		public void SetSessionInfo(SpotifySessionInfo sessionInfo)
 		{
-			AccessToken = accessToken;
+			lock(_lock)
+			{
+				_spotifySessionInfo = sessionInfo;
+			}
+		}
+
+		public SpotifySessionInfo GetSessionInfo()
+		{
+			lock(_lock)
+			{
+				return _spotifySessionInfo;
+			}
 		}
 	}
 }

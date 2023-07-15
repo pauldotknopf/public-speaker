@@ -12,7 +12,15 @@ if(builder.Environment.IsDevelopment())
 
 builder.Services.Configure<SpotifyConfig>(builder.Configuration.GetSection("Spotify"));
 builder.Services.AddSingleton<SpotifySession>();
-builder.Services.AddScoped(context => { return new SpotifyClient(context.GetRequiredService<SpotifySession>().AccessToken); });
+builder.Services.AddScoped(context => {
+    var sessionInfo = context.GetRequiredService<SpotifySession>().GetSessionInfo();
+    if(sessionInfo == null)
+    {
+        throw new NotSupportedException("can't resolve SpotifyClient without an active session.");
+    }
+    return new SpotifyClient(sessionInfo.AccessToken);
+});
+builder.Services.AddHostedService<TokenRefreshService>();
 
 var app = builder.Build();
 

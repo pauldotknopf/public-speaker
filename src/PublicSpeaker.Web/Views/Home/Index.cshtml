@@ -4,6 +4,18 @@
 }
 <div class="container">
 
+    <div class="jumbotron">
+        <h1 class="display-6">Hi! Play some music!</h1>
+        <p class="lead">I created this website for others to control my queue. Have fun!</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" role="button" asp-controller="Queue" asp-action="Search"><i class="fa-solid fa-plus"></i>&nbsp;Add a song!</a>
+        </p>
+        <hr class="my-4" />
+        <p class="lead">
+            <a class="btn btn-light" href="https://www.instagram.com/the.paul.of.the.wild"><i class="fa-brands fa-instagram"></i>&nbsp;the.paul.of.the.wild</a>
+        </p>
+    </div>
+
     <h2>Currently playing</h2>
 
     @if (Model.CurrentlyPlaying != null)

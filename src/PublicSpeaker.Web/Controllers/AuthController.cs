@@ -32,14 +32,16 @@ namespace PublicSpeaker.Web.Controllers
 				return Content("invalid user");
 			}
 
-			_spotifySession.SetAccessToken(response.AccessToken);
+			var refreshAt = DateTime.Now.Add(TimeSpan.FromSeconds(response.ExpiresIn)).Subtract(TimeSpan.FromMinutes(1));
+
+			_spotifySession.SetSessionInfo(new SpotifySessionInfo(response.AccessToken, response.RefreshToken, refreshAt));
 
 			return Redirect("/");
         }
 
 		public IActionResult Logout()
 		{
-			_spotifySession.SetAccessToken(null);
+			_spotifySession.SetSessionInfo(null);
 			return Content("logged out");
 		}
 	}

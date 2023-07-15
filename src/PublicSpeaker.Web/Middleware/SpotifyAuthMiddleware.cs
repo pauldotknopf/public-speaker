@@ -29,7 +29,7 @@ namespace PublicSpeaker.Web.Middleware
                 return;
             }
 
-            if (string.IsNullOrEmpty(_spotifySession.AccessToken))
+            if (_spotifySession.GetSessionInfo() == null)
             {
                 var redirectUri = $"{context.Request.Scheme}://{context.Request.Host.Value}/auth/callback";
                 var loginRequest = new LoginRequest(
