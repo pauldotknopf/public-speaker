@@ -30,6 +30,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 
+app.UseHttpLogging();
+
 app.UseStaticFiles();
 
 app.UseMiddleware<SpotifyAuthMiddleware>();
